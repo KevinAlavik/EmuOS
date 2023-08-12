@@ -139,7 +139,7 @@ builtinCmds = {
 def initializeTerminal(fs):
     while True:
         relative_path = os.path.relpath(fs.current_path, fs.root_path)
-        command = input(f"({relative_path}) $ ")
+        command = input(prompt(relative_path))
 
         if command == "exit":
             break
@@ -150,6 +150,8 @@ def initializeTerminal(fs):
         elif command.startswith("cd"):
             new_dir = command[3:].strip()
             fs.change_directory(new_dir)
+        elif command.strip() == "":
+            continue  # Skip processing if the command is empty
         else:
             parts = command.split()
             cmd_name = parts[0]
@@ -161,6 +163,7 @@ def initializeTerminal(fs):
                 builtinCmds[cmd_name](fs, args)
             else:
                 print("Invalid command:", command)
+
 
 
 # Run the terminal
